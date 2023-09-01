@@ -1,0 +1,134 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&family=Ubuntu:wght@700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+html{
+    scroll-behavior: smooth;
+}
+
+body {
+    color: #112D4E;
+}
+
+.Chatbot-card {
+    background-color: #f5f4f4;
+    margin: 30px;
+}
+
+.container-inside-left-card-zara{
+    margin: 30px;
+}
+
+/* ChatBot layout */
+
+.div-zara {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: 370px 370px;
+}
+
+.div-zara .left-card-zara {
+    grid-column: 1/5;
+    grid-row: 1/12;
+}
+
+.div-zara .full-chatbot-layout-zara {
+    grid-column: 5/13;
+    grid-row: 1/11;
+    margin: 50px 120px 50px 20px;
+}
+
+.div-zara .chat-input-zara {
+    grid-column: 5/13;
+    grid-row: 11/12;
+}
+
+/* ------------------- */
+
+.chat-text-input-data-qa{
+    margin-left: 20px;
+    width: 90%;
+}
+
+.title-zara {
+    margin-bottom: 20px;
+    font-size: 40px;
+    width: 70%;
+    font-weight: bolder;
+}
+
+.desc-zara-1 {
+    margin: 20px 0px 50px 0px;
+    font-size: 16px;
+    width: 70%;
+}
+
+.desc-zara-2 {
+    margin-top: 40px;
+    font-size: 14px;
+}
+
+.chip-container-zara2{
+    margin-top: 10px;
+    width: 100%;
+    overflow-x: scroll;
+    /* Hide the scrollbar */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE/Edge */
+    &::-webkit-scrollbar {
+        width: 0px; /* Chrome, Safari, Opera */
+    }
+}
+
+.chip-data-zara2{
+    margin-right: 10px;
+}
+
+/* ======== Bagian input Chatnya =========== */
+
+.chat-input-zara{
+    display: flex;
+}
+
+.chat-text-input-data-qa {
+    flex: 1;
+}
+
+.div-action-button-stack-zara {
+    margin-left: 10px;
+    margin-top: 7px;
+    flex: 0.1;
+}
+
+/*===============================================*/
+
+.grid-chat{
+    margin-top: 4px;
+    max-width: 1000px;
+}
+
+/*=========================================*/
+
+
+
+#segmented .mantine-SegmentedControl-label{
+    padding: 5px 20px 5px 20px;
+    font-weight: 400;
+}
+
+#segmented .mantine-SegmentedControl-labelActive{
+    color: black;
+    /* font-weight: 600; */
+}
+
+#segmented 	.mantine-SegmentedControl-active{
+    /* border-left: 1px solid #eacbfa;
+    border-right: 1px solid #eacbfa; */
+    background-color: #F8F0FC;
+}
