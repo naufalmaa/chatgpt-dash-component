@@ -11,7 +11,7 @@ import pandas as pd
 from pandasai import SmartDataframe
 from pandasai.llm import OpenAI
 
-openai_api_key = "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"
+openai_api_key = OPEN_AI_API_KEY
 llm = OpenAI(api_token=openai_api_key)
 
 df = pd.read_csv("./aceh_production_data_daily_ed.csv")
