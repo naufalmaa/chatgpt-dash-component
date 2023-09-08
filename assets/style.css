@@ -109,8 +109,61 @@ body {
 /*===============================================*/
 
 .grid-chat{
-    margin-top: 4px;
-    max-width: 1000px;
+    max-width: 900px;
+    padding-top: 30px;
+}
+
+.grid-chat-for-table{
+    padding: 20px 0px 20px 0px;
+    max-width: 900px;
+}
+
+.chat-full-div{
+    border-bottom: 1px solid #C1C1C1;
+    overflow: auto;
+    overflow-y: hidden;
+}
+
+.chat-full-div::-webkit-scrollbar {
+    display: none;
+}
+
+.grid-profile{
+    padding: 20px;
+}
+
+.full-chatbot-layout-zara{
+    height: 665px;
+    overflow: auto;
+    overflow-x: hidden;
+}
+
+.full-chatbot-layout-zara::-webkit-scrollbar{
+    width: 15px;
+}
+
+.full-chatbot-layout-zara::-webkit-scrollbar-track{
+    background: #F5F4F4;
+}
+
+.full-chatbot-layout-zara::-webkit-scrollbar-thumb{
+    background: #F5F4F4;
+    border: 2px solid #C1C1C1;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+}
+
+/*=========================================*/
+
+.ag-theme-alpine{
+    /* --ag-background-color: #F5F4F4; */
+    --ag-header-background-color: #F8F8F8;
+    --ag-row-border-color: transparent;
+    --ag-row-hover-color: #F8F0FC;
+    --ag-odd-row-background-color: rgb(0, 0, 0, 0.03);
 }
 
 /*=========================================*/
