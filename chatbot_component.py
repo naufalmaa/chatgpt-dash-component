@@ -7,16 +7,34 @@ import dash_mantine_components as dmc
 from dash_iconify import DashIconify
 
 import pandas as pd
+import time
 
 from pandasai import SmartDataframe
 from pandasai.llm import OpenAI
 
-openai_api_key = OPEN_AI_API_KEY
+from io import StringIO
+
+openai_api_key = 'OPENAPIKEY'
 llm = OpenAI(api_token=openai_api_key)
 
 df = pd.read_csv("./aceh_production_data_daily_ed.csv")
 
 conv_hist = []
+
+def contains_word(text, word_list):
+    for word in word_list:
+        if text.find(word) != -1:
+            return True
+    return False
+
+word_list = ['table', 'summary', 'summerize']
+
+# def create_table(df):
+#     columns, values = df.columns, df.values
+#     header = [html.Tr([html.Th(col) for col in columns])]
+#     rows = [html.Tr([html.Td(cell) for cell in row]) for row in values]
+#     table = [html.Thead(header), html.Tbody(rows)]
+#     return table
 
 # -------------------------------- OpenAI --------------------------------
 
@@ -49,7 +67,7 @@ app.layout = html.Section(
                                     className="container-inside-left-card-zara",
                                     children=[
                                         html.H1(
-                                            "Zara IntelliSmart ChatBot",
+                                            "Zara IntelliSmart Assistant",
                                             className="title-zara",
                                         ),
                                         html.Div(
@@ -77,7 +95,7 @@ app.layout = html.Section(
                                             ],
                                         ),
                                         html.P(
-                                            "A chatbot for you to build a quick data analysis without querying your data",
+                                            "An assistant for you to build a quick data analysis without querying your data",
                                             className="desc-zara-1",
                                         ),
                                         html.P(
@@ -110,6 +128,7 @@ app.layout = html.Section(
                                             children=[
                                                 dag.AgGrid(
                                                 id="table-data-qa",
+                                                className='ag-theme-alpine',
                                                 defaultColDef={"resizeable": True, "sortable": True, "filter": True},
                                                 dashGridOptions={"pagination": True},
 )
@@ -125,7 +144,7 @@ app.layout = html.Section(
                                 dmc.Textarea(
                                     className="chat-text-input-data-qa",
                                     id='chat-text-input-data-zara',
-                                    placeholder="Write your question here",
+                                    placeholder="Write your question here...",
                                     autosize=False,
                                     minRows=2,
                                     maxRows=2,
@@ -148,16 +167,15 @@ app.layout = html.Section(
                                          ),
                             ],
                         ),
+                        # dmc.LoadingOverlay
                         html.Div(className="full-chatbot-layout-zara", children=[
-                            dmc.Text(id='OutputHuman', children=''),
-                            dmc.Text(id='OutputChatbot', children='')
+                            dmc.LoadingOverlay(
+                            html.Div(id='response-chatbot'),
+                                loaderProps={'variant':'dots', 'color':'dark','size':'xl'},
+                                overlayBlur=2,
+                                overlayColor='#F5F4F4', style={'height':'665px'}
+                            )
                         ]
-                            #      children=[
-                            # dmc.Grid(gutter='xs', children=[dmc.Col(html.Div(dmc.Avatar(DashIconify(icon="mdi:user-outline", width=20), color='gray', radius='xl', size='sm', style={'border': '2px solid #868E96', 'border-radius':'50%'})), span='content',className='grid-profile'),
-                            #                    dmc.Col(html.Div(html.H4('Testing',style={'text-align':'left', 'width':'200px'})), className='grid-chat')], style={'padding':'5px 0px 5px 0px'}),
-                            # dmc.Grid(gutter='xs', children=[dmc.Col(html.Div(dmc.Avatar(DashIconify(icon="lucide:bot", width=15), color='blue', radius='xl', size='sm', style={'border': '2px solid #53A5EC', 'border-radius':'50%'})), span='content', className='grid-profile'),
-                            #                    dmc.Col(html.Div(html.H4('response zara',style={'text-align':'left'})), className='grid-chat')], style={'padding':'5px 0px 5px 0px'})
-                            # ]
                                  ),
                     ],
                 )
@@ -215,22 +233,63 @@ def table_dataset(dataset):
     return dataset
 
 @app.callback(
-    Output('OutputHuman', 'children'),
-    Output('OutputChatbot', 'children'),
+    Output('response-chatbot', 'children'),
     Input('send-chat-zara', 'n_clicks'),
     State('chat-text-input-data-zara', 'value'),
     Input('memory-output','data')
 )
 
 def update_convo(n, human_prompt, data_chosen):
-    if n is None and data_chosen is not None:
-        return None, None
+    
+    button_click = ctx.triggered_id
+    global conv_hist
+    
+    if button_click == 'send-chat-zara':
+        time.sleep(1)
+        
+        if contains_word(human_prompt.lower(), word_list):
+            call_API = SmartDataframe(data_chosen, config={'llm':llm})
+            chatbot_resp = call_API.chat(human_prompt)
+            
+            bot_table_output = f"{chatbot_resp}"
+            df_ = pd.read_csv(StringIO(bot_table_output), delim_whitespace=True, header=0, index_col=0)
+            df_ = df_.transpose()
+            df_.reset_index(inplace=True)
+            
+            final_table = dag.AgGrid(className='ag-theme-alpine',
+                                     rowData=df_.to_dict('records'), 
+                                     columnDefs=[{'field': i} for i in df_.columns],
+                                    defaultColDef={"resizeable": True, "sortable": True, "filter": True})
+            # final_table = dmc.Table(create_table(df_))
+
+            whole_div = html.Div(children=[
+                dmc.Grid(gutter='xs', children=[dmc.Col(html.Div(dmc.Avatar(DashIconify(icon="mdi:user-outline", width=40), color='gray', radius='xl', size='40px', style={'border': '2px solid #868E96', 'border-radius':'50%'})), span='content',className='grid-profile'),
+                                                dmc.Col(html.Div(html.H4(human_prompt,style={'text-align':'left'})), className='grid-chat')], style={'padding':'5px 0px 5px 0px'}, className='chat-full-div'),
+                dmc.Grid(gutter='xs', children=[dmc.Col(html.Div(dmc.Avatar(DashIconify(icon="mdi:face-agent", width=40), color='blue', radius='xl', size='40px', style={'border': '2px solid #53A5EC', 'border-radius':'50%'})), span='content', className='grid-profile'),
+                                                dmc.Col(html.Div([final_table]), className='grid-chat-for-table')], style={'padding':'5px 0px 5px 0px'}, className='chat-full-div')
+                ])
+            
+            conv_hist.append(whole_div)
+            
+            return conv_hist
+        
+        else:
+            call_API = SmartDataframe(data_chosen, config={'llm':llm})
+            chatbot_resp = call_API.chat(human_prompt)
+            
+            whole_div = html.Div(children=[
+                dmc.Grid(gutter='xs', children=[dmc.Col(html.Div(dmc.Avatar(DashIconify(icon="mdi:user-outline", width=40), color='gray', radius='xl', size='40px', style={'border': '2px solid #868E96', 'border-radius':'50%'})), span='content',className='grid-profile'),
+                                                dmc.Col(html.Div(html.H4(human_prompt,style={'text-align':'left'})), className='grid-chat')], style={'padding':'5px 0px 5px 0px'}, className='chat-full-div'),
+                dmc.Grid(gutter='xs', children=[dmc.Col(html.Div(dmc.Avatar(DashIconify(icon="mdi:face-agent", width=40), color='blue', radius='xl', size='40px', style={'border': '2px solid #53A5EC', 'border-radius':'50%'})), span='content', className='grid-profile'),
+                                                dmc.Col(html.Div(html.H4(chatbot_resp,style={'text-align':'left'})), className='grid-chat')], style={'padding':'5px 0px 5px 0px'}, className='chat-full-div')
+            ])
+            
+            conv_hist.append(whole_div)
+            
+            return conv_hist
     
     else:
-        call_API = SmartDataframe(data_chosen, config={'llm':llm, 'conversation':True})
-        chatbot_resp = call_API.chat(human_prompt)
-        
-        return human_output, chatbot_output
+        return None
 
 if __name__ == "__main__":
     app.run_server(debug=True, port=1234)
