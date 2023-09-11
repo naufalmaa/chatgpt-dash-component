@@ -147,6 +147,13 @@ app.layout = html.Section(
                         html.Div(
                             className="chat-input-zara",
                             children=[
+                                
+                                # dcc.Input(className='chat-text-input-data-qa',
+                                #           id='chat-text-input-data-zara',
+                                #           placeholder="Write your question here ...",
+                                #           debounce=True
+                                #           ),
+                                
                                 dmc.Textarea(
                                     className="chat-text-input-data-qa",
                                     id='chat-text-input-data-zara',
@@ -156,6 +163,7 @@ app.layout = html.Section(
                                     maxRows=2,
                                     variant="default",
                                     radius='lg',
+                                    debounce=True
                                     
                                 ),
                                 html.Div(className='div-action-button-stack-zara',
