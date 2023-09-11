@@ -9,16 +9,22 @@ import pandas as pd
 from pandasai import SmartDataframe
 from pandasai.llm import OpenAI
 
+#for key
+import openai_api_key
+
+import chartgpt as cg
+
 from io import StringIO
 
 
-openai_api_key = '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'
+openai_api_key = openai_api_key.KEY
 llm = OpenAI(api_token=openai_api_key)
 
 data = pd.read_csv("./aceh_production_data_daily_ed.csv")
 calculations = [["original", "Original"], ["GOR", "GOR"]]
 
 word_list = ['summerize', 'summary', 'table']
+plot_list = ['plot']
 
 # Function to check if any word from the list exists in the text
 def contains_word(text, word_list):
@@ -194,6 +200,16 @@ def call_openaiAPI(n, human_prompt, data_chosen):
             # Rename the index column
             df_.rename(columns={'index': 'Column_Name'}, inplace=True)
             a = dmc.Table(create_table(df_))
+            
+            return human_output, a
+        
+        elif contains_word(human_prompt.lower(), plot_list):
+            human_output = html.H4(f"human : {human_prompt}")
+            dfchart = pd.DataFrame(data_chosen)
+            chart = cg.Chart(dfchart, api_key=openai_api_key)
+            fig = chart.plot(human_prompt, return_fig=True)
+            
+            a = dcc.Graph(figure=fig)
             
             return human_output, a
         

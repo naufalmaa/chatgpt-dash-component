@@ -9,12 +9,17 @@ from dash_iconify import DashIconify
 import pandas as pd
 import time
 
+#for key
+import openai_api_key
+
 from pandasai import SmartDataframe
 from pandasai.llm import OpenAI
 
+import chartgpt as cg
+
 from io import StringIO
 
-openai_api_key = 'OPENAPIKEY'
+openai_api_key = openai_api_key.KEY
 llm = OpenAI(api_token=openai_api_key)
 
 df = pd.read_csv("./aceh_production_data_daily_ed.csv")
@@ -28,13 +33,14 @@ def contains_word(text, word_list):
     return False
 
 word_list = ['table', 'summary', 'summerize']
+plot_list = ['plot']
 
-# def create_table(df):
-#     columns, values = df.columns, df.values
-#     header = [html.Tr([html.Th(col) for col in columns])]
-#     rows = [html.Tr([html.Td(cell) for cell in row]) for row in values]
-#     table = [html.Thead(header), html.Tbody(rows)]
-#     return table
+def create_table(df):
+    columns, values = df.columns, df.values
+    header = [html.Tr([html.Th(col) for col in columns])]
+    rows = [html.Tr([html.Td(cell) for cell in row]) for row in values]
+    table = [html.Thead(header), html.Tbody(rows)]
+    return table
 
 # -------------------------------- OpenAI --------------------------------
 
@@ -173,7 +179,7 @@ app.layout = html.Section(
                             html.Div(id='response-chatbot'),
                                 loaderProps={'variant':'dots', 'color':'dark','size':'xl'},
                                 overlayBlur=2,
-                                overlayColor='#F5F4F4', style={'height':'665px'}
+                                overlayColor='#F5F4F4'
                             )
                         ]
                                  ),
@@ -256,17 +262,35 @@ def update_convo(n, human_prompt, data_chosen):
             df_ = df_.transpose()
             df_.reset_index(inplace=True)
             
-            final_table = dag.AgGrid(className='ag-theme-alpine',
-                                     rowData=df_.to_dict('records'), 
-                                     columnDefs=[{'field': i} for i in df_.columns],
-                                    defaultColDef={"resizeable": True, "sortable": True, "filter": True})
-            # final_table = dmc.Table(create_table(df_))
+            # final_table = dag.AgGrid(className='ag-theme-alpine',
+            #                          rowData=df_.to_dict('records'), 
+            #                          columnDefs=[{'field': i} for i in df_.columns],
+            #                         defaultColDef={"resizeable": True, "sortable": True, "filter": True})
+            final_table = dmc.Table(create_table(df_))
 
             whole_div = html.Div(children=[
                 dmc.Grid(gutter='xs', children=[dmc.Col(html.Div(dmc.Avatar(DashIconify(icon="mdi:user-outline", width=40), color='gray', radius='xl', size='40px', style={'border': '2px solid #868E96', 'border-radius':'50%'})), span='content',className='grid-profile'),
                                                 dmc.Col(html.Div(html.H4(human_prompt,style={'text-align':'left'})), className='grid-chat')], style={'padding':'5px 0px 5px 0px'}, className='chat-full-div'),
                 dmc.Grid(gutter='xs', children=[dmc.Col(html.Div(dmc.Avatar(DashIconify(icon="mdi:face-agent", width=40), color='blue', radius='xl', size='40px', style={'border': '2px solid #53A5EC', 'border-radius':'50%'})), span='content', className='grid-profile'),
                                                 dmc.Col(html.Div([final_table]), className='grid-chat-for-table')], style={'padding':'5px 0px 5px 0px'}, className='chat-full-div')
+                ])
+            
+            conv_hist.append(whole_div)
+            
+            return conv_hist
+        
+        elif contains_word(human_prompt.lower(), plot_list):
+            dfchart = pd.DataFrame(data_chosen)
+            chart = cg.Chart(dfchart, api_key=openai_api_key)
+            fig = chart.plot(human_prompt, return_fig=True)
+            fig.update_layout(paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)")
+            graph_bot = dcc.Graph(figure=fig)
+
+            whole_div = html.Div(children=[
+                dmc.Grid(gutter='xs', children=[dmc.Col(html.Div(dmc.Avatar(DashIconify(icon="mdi:user-outline", width=40), color='gray', radius='xl', size='40px', style={'border': '2px solid #868E96', 'border-radius':'50%'})), span='content',className='grid-profile'),
+                                                dmc.Col(html.Div(html.H4(human_prompt,style={'text-align':'left'})), className='grid-chat')], style={'padding':'5px 0px 5px 0px'}, className='chat-full-div'),
+                dmc.Grid(gutter='xs', children=[dmc.Col(html.Div(dmc.Avatar(DashIconify(icon="mdi:face-agent", width=40), color='blue', radius='xl', size='40px', style={'border': '2px solid #53A5EC', 'border-radius':'50%'})), span='content', className='grid-profile'),
+                                                dmc.Col(html.Div(graph_bot), className='grid-chat-for-table')], style={'padding':'5px 0px 5px 0px'}, className='chat-full-div')
                 ])
             
             conv_hist.append(whole_div)

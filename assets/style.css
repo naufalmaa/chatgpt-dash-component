@@ -108,9 +108,14 @@ body {
 
 /*===============================================*/
 
+.grid-profile{
+    padding: 20px;
+}
+
 .grid-chat{
     max-width: 900px;
     padding-top: 30px;
+    padding-bottom: 30px;
 }
 
 .grid-chat-for-table{
@@ -120,17 +125,34 @@ body {
 
 .chat-full-div{
     border-bottom: 1px solid #C1C1C1;
+}
+
+/* for scroll table */
+
+.grid-chat-for-table{
     overflow: auto;
     overflow-y: hidden;
 }
 
-.chat-full-div::-webkit-scrollbar {
-    display: none;
+.grid-chat-for-table::-webkit-scrollbar{
+    height: 15px;
 }
 
-.grid-profile{
-    padding: 20px;
+.grid-chat-for-table::-webkit-scrollbar-track{
+    background: #F5F4F4;
 }
+
+.grid-chat-for-table::-webkit-scrollbar-thumb{
+    background: #F5F4F4;
+    border: 2px solid #C1C1C1;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+}
+
+/* for scroll entire zara chat */
 
 .full-chatbot-layout-zara{
     height: 665px;
