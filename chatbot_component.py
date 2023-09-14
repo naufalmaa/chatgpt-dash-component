@@ -94,13 +94,8 @@ app.layout = html.Section(
                                                     value="RAW Data",
                                                     data=[
                                                         "RAW Data",
-                                                        "Oil Production Rate",
-                                                        "Well Status",
-                                                        "Daily Water Injection",
                                                         "Water Cut Daily Gas Ratio",
-                                                        "Oil and Water Rate by Time",
-                                                        "Choke Size and Avg Downhole Pressure",
-                                                        "Well Log",
+
                                                     ],
                                                 )
                                             ],
