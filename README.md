@@ -1,5 +1,6 @@
 # Zara IntelliSmart Assistant
 
+
 ## Installation
 1. Clone the repository
 ```
@@ -17,4 +18,4 @@ pip install -r requirements.txt
 ```
 
 4. Set OpenAI Key
-5. Run whole Python script
+5. Run the whole Python script (chatbot_component.py)
