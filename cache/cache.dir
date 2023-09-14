@@ -88,3 +88,8 @@
 'User: make a table of missing data on each column!f1a233bad6fc986eac5d88130f1ea0fb6bb433aac13f7af9b9840e08e06d55b4', (158208, 994)
 'User: can you tell me what date which containing value on bore oil vol for well-c1? for example, "well-c1 has value from 2012-01-01 to 2014-01-01, the rest of it is missing"f1a233bad6fc986eac5d88130f1ea0fb6bb433aac13f7af9b9840e08e06d55b4', (159232, 1306)
 'User: which one that has the highest total count for well bore code?f1a233bad6fc986eac5d88130f1ea0fb6bb433aac13f7af9b9840e08e06d55b4', (160768, 1280)
+"User: what's my question?2aea5dc9da1966d74f7487eac0838a4202e74bde2a5995624f74af41dcdef89e", (162304, 1544)
+'User: find max value for bore gas vol!f1a233bad6fc986eac5d88130f1ea0fb6bb433aac13f7af9b9840e08e06d55b4', (164352, 1044)
+'User: find max value for bore gas vol! also mentioning its date!f1a233bad6fc986eac5d88130f1ea0fb6bb433aac13f7af9b9840e08e06d55b4', (165888, 1296)
+'User: please show me the max value for gas volume, also mention its datef1a233bad6fc986eac5d88130f1ea0fb6bb433aac13f7af9b9840e08e06d55b4', (167424, 1204)
+"User: what's the highest value for Well-C1? also mentioning its date!2aea5dc9da1966d74f7487eac0838a4202e74bde2a5995624f74af41dcdef89e", (168960, 1209)

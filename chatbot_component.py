@@ -76,30 +76,6 @@ app.layout = html.Section(
                                             "Zara IntelliSmart Assistant",
                                             className="title-zara",
                                         ),
-                                        html.Div(
-                                            className="chip-container-zara1",
-                                            children=[
-                                                dmc.ChipGroup(
-                                                    [
-                                                        dmc.Chip(
-                                                            x,
-                                                            value=x,
-                                                            color="grape",
-                                                            variant="filled",
-                                                            radius="lg",
-                                                        )
-                                                        for x in [
-                                                            "Data Q&A",
-                                                            "Document Q&A",
-                                                            "Report AI",
-                                                        ]
-                                                    ],
-                                                    id="chip-data-zara1",
-                                                    value="Data Q&A",
-                                                    multiple=False,
-                                                )
-                                            ],
-                                        ),
                                         html.P(
                                             "An assistant for you to build a quick data analysis without querying your data",
                                             className="desc-zara-1",
