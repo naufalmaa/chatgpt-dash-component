@@ -7,15 +7,10 @@
 git clone https://github.com/yourusername/chatgpt-dash-component.git
 ```
 
-2. Change the working directory to the cloned repository
-```
-cd chatgpt-dash-component
-```
-
-3. Install required Python packages
+2. Install required Python packages
 ```
 pip install -r requirements.txt
 ```
 
-4. Set OpenAI Key
-5. Run the whole Python script (chatbot_component.py)
+3. Set OpenAI Key
+4. Run the whole Python script (chatbot_component.py)
