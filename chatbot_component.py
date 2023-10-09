@@ -23,6 +23,7 @@ openai_api_key = openai_api_key.KEY
 llm = OpenAI(api_token=openai_api_key)
 
 df = pd.read_csv("./aceh_production_data_daily_ed.csv")
+df_log = pd.read_csv("./aceh_log_data_ed.csv")
 
 conv_hist = []
 
@@ -50,7 +51,7 @@ app = Dash(
     meta_tags=[{"name": "viewport", "content": "width=device-width, initial-scale=1"}],
 )
 
-app.title = "Aceh Block Information (Dummy)"
+app.title = "Zara IntelliSmart Assistant"
 app.layout = html.Section(
     [
         dcc.Store(id='memory-output'),
@@ -91,11 +92,12 @@ app.layout = html.Section(
                                                     id="segmented",
                                                     radius="lg",
                                                     size="sm",
-                                                    value="RAW Data",
+                                                    value="Production Data",
                                                     data=[
-                                                        "RAW Data",
+                                                        "Production Data",
                                                         "Water Cut Daily Gas Ratio",
-
+                                                        "Log Data"
+                                                        
                                                     ],
                                                 )
                                             ],
@@ -197,6 +199,14 @@ def filter_table(calculation_chosen):
         ]
         
         return data_GOR, column_GOR
+    
+    if calculation_chosen == 'Log Data':
+        data_log = df_log.to_dict('records')
+        columns_log = [
+            {"field": i} for i in df_log.columns
+        ]
+        
+        return data_log, columns_log
     
     df_original = df.to_dict('records')
     original_columns = [

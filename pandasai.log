@@ -16237,3 +16237,104 @@ result = analyze_data(dfs)
         ```
 2023-09-14 15:54:03 [INFO] Answer: {'type': 'text', 'value': 'The highest value for Well-C1 is 334.65614 on 2016-07-31.'}
 2023-09-14 15:54:03 [INFO] Executed in: 15.399218082427979s
+2023-09-15 08:48:01 [INFO] Question: Max Value of Oil Volume for the date
+2023-09-15 08:48:01 [INFO] Running PandasAI with openai LLM...
+2023-09-15 08:48:01 [INFO] Prompt ID: 83d6a653-b225-443e-95a8-f693595073b2
+2023-09-15 08:48:12 [INFO] Question: Max Value of Bore_oil_vol for the date
+2023-09-15 08:48:12 [INFO] Running PandasAI with openai LLM...
+2023-09-15 08:48:12 [INFO] Prompt ID: 15210e43-4777-420d-b547-fcfb3cc9df03
+2023-09-15 08:48:30 [INFO] 
+                    Code generated:
+                    ```
+                    # TODO import all the dependencies required
+import pandas as pd
+
+# Analyze the data
+# 1. Prepare: Preprocessing and cleaning data if necessary
+# 2. Process: Manipulating data for analysis (grouping, filtering, aggregating, etc.)
+# 3. Analyze: Conducting the actual analysis (if the user asks to create a chart save it to an image in exports/charts/temp_chart.png and do not show the chart.)
+# 4. Output: return a dictionary of:
+# - type (possible values "text", "number", "dataframe", "plot")
+# - value (can be a string, a dataframe or the path of the plot, NOT a dictionary)
+# Example output: { "type": "text", "value": "The average loan amount is $15,000." }
+def analyze_data(dfs: list[pd.DataFrame]) -> dict:
+    # Combine all dataframes into a single dataframe
+    df_combined = pd.concat(dfs)
+
+    # Convert DATEPRD column to datetime
+    df_combined['DATEPRD'] = pd.to_datetime(df_combined['DATEPRD'])
+
+    # Get the max value of BORE_OIL_VOL for each date
+    max_bore_oil_vol = df_combined.groupby('DATEPRD')['BORE_OIL_VOL'].max()
+
+    # Get the date with the max value of BORE_OIL_VOL
+    max_date = max_bore_oil_vol.idxmax()
+
+    # Get the max value of BORE_OIL_VOL
+    max_value = max_bore_oil_vol.max()
+
+    # Return the result as a dictionary
+    return {
+        "type": "text",
+        "value": f"The max value of BORE_OIL_VOL is {max_value} on {max_date}."
+    }
+
+# Declare a result variable
+result = analyze_data(dfs)
+                    ```
+                
+2023-09-15 08:48:30 [INFO] 
+Code running:
+```
+def analyze_data(dfs: list[pd.DataFrame]) ->dict:
+    df_combined = pd.concat(dfs)
+    df_combined['DATEPRD'] = pd.to_datetime(df_combined['DATEPRD'])
+    max_bore_oil_vol = df_combined.groupby('DATEPRD')['BORE_OIL_VOL'].max()
+    max_date = max_bore_oil_vol.idxmax()
+    max_value = max_bore_oil_vol.max()
+    return {'type': 'text', 'value': f'The max value of BORE_OIL_VOL is {max_value} on {max_date}.'}
+
+
+result = analyze_data(dfs)
+        ```
+2023-09-15 08:48:30 [INFO] Answer: {'type': 'text', 'value': 'The max value of BORE_OIL_VOL is 5901.84 on 2009-01-08 00:00:00.'}
+2023-09-15 08:48:30 [INFO] Executed in: 18.238912105560303s
+2023-10-05 11:17:18 [INFO] Question: hi
+2023-10-05 11:17:18 [INFO] Running PandasAI with openai LLM...
+2023-10-05 11:17:18 [INFO] Prompt ID: eb5b0f79-3f83-44b3-b263-31e734b6a7cf
+2023-10-05 11:17:26 [INFO] Question: hi
+2023-10-05 11:17:26 [INFO] Running PandasAI with openai LLM...
+2023-10-05 11:17:26 [INFO] Prompt ID: 76053540-cf0b-4ec8-b19c-48e87ce5044e
+2023-10-05 11:17:34 [INFO] 
+                    Code generated:
+                    ```
+                    # TODO import all the dependencies required
+import pandas as pd
+
+# Analyze the data
+# 1. Prepare: Preprocessing and cleaning data if necessary
+# 2. Process: Manipulating data for analysis (grouping, filtering, aggregating, etc.)
+# 3. Analyze: Conducting the actual analysis (if the user asks to create a chart save it to an image in exports/charts/temp_chart.png and do not show the chart.)
+# 4. Output: return a dictionary of:
+# - type (possible values "text", "number", "dataframe", "plot")
+# - value (can be a string, a dataframe or the path of the plot, NOT a dictionary)
+# Example output: { "type": "text", "value": "The average loan amount is $15,000." }
+def analyze_data(dfs: list[pd.DataFrame]) -> dict:
+    # Code goes here (do not add comments)
+    return {"type": "text", "value": "Hi! How can I assist you today?"}
+
+# Declare a result variable
+result = analyze_data(dfs)
+                    ```
+                
+2023-10-05 11:17:34 [INFO] 
+Code running:
+```
+def analyze_data(dfs: list[pd.DataFrame]) ->dict:
+    return {'type': 'text', 'value': 'Hi! How can I assist you today?'}
+
+
+result = analyze_data(dfs)
+        ```
+2023-10-05 11:17:34 [INFO] Answer: {'type': 'text', 'value': 'Hi! How can I assist you today?'}
+2023-10-05 11:17:34 [INFO] Executed in: 7.566993713378906s
